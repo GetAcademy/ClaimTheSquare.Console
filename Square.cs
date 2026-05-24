@@ -17,7 +17,7 @@ public class Square
         return _text == null;
     }
 
-    public bool TryClaimOrUpdateColors(
+    public bool Claim(
         string text,
         GameColor foreColor,
         GameColor backColor,
@@ -132,4 +132,5 @@ public class Square
 
         return text.Substring(0, 5);
     }
+
 }

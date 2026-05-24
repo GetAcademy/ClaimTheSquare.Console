@@ -56,7 +56,7 @@ public class ClaimTheSquareApp
         Console.WriteLine("Velg bakgrunnsfarge:");
         var backColor = ColorMenu.ReadColor();
 
-        var wasChanged = _board.TryClaimOrUpdateSquare(index, text, foreColor, backColor, out var message);
+        var wasChanged = _board.ClaimSquare(index, text, foreColor, backColor, out var message);
         Console.WriteLine();
         Console.WriteLine(message);
 

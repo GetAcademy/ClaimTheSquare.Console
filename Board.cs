@@ -32,7 +32,7 @@ public class Board
         }
     }
 
-    public bool TryClaimOrUpdateSquare(
+    public bool ClaimSquare(
         int index,
         string text,
         GameColor foreColor,
@@ -45,7 +45,7 @@ public class Board
             return false;
         }
 
-        return _squares[index].TryClaimOrUpdateColors(text, foreColor, backColor, out message);
+        return _squares[index].Claim(text, foreColor, backColor, out message);
     }
 
     public List<TextObjectDto> ToDtos()
