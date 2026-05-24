@@ -2,7 +2,7 @@ namespace ClaimTheSquareConsole;
 
 public class GameColor
 {
-    private static readonly List<string> ValidColorNames = new List<string>
+    public static List<string> ValidColorNames { get; } = new List<string>
     {
         "black",
         "white",
@@ -31,7 +31,7 @@ public class GameColor
             return null;
         }
         var name = colorName.Trim().ToLower();
-        if (!IsValidColorName(name))
+        if (!ValidColorNames.Contains(name))
         {
             return null;
         }
@@ -42,15 +42,5 @@ public class GameColor
         }
 
         return new GameColor(name, consoleColor);
-    }
-
-    public static List<string> GetValidColorNames()
-    {
-        return ValidColorNames;
-    }
-
-    private static bool IsValidColorName(string colorName)
-    {
-        return ValidColorNames.Contains(colorName);
     }
 }
