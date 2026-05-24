@@ -44,7 +44,7 @@ public class Square
             return false;
         }
 
-        if (!foreColor.Equals(_backColor) || !backColor.Equals(_foreColor))
+        if (foreColor.Name != _backColor!.Name || backColor.Name != _foreColor!.Name)
         {
             message = "Fargene må være nøyaktig motsatt av før.";
             return false;

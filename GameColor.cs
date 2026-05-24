@@ -2,17 +2,17 @@ namespace ClaimTheSquareConsole;
 
 public class GameColor
 {
-    private static readonly GameColor[] Colors =
+    private static readonly List<string> ValidColorNames = new List<string>
     {
-        new GameColor("black", ConsoleColor.Black),
-        new GameColor("white", ConsoleColor.White),
-        new GameColor("gray", ConsoleColor.Gray),
-        new GameColor("red", ConsoleColor.Red),
-        new GameColor("green", ConsoleColor.Green),
-        new GameColor("blue", ConsoleColor.Blue),
-        new GameColor("yellow", ConsoleColor.Yellow),
-        new GameColor("cyan", ConsoleColor.Cyan),
-        new GameColor("magenta", ConsoleColor.Magenta)
+        "black",
+        "white",
+        "gray",
+        "red",
+        "green",
+        "blue",
+        "yellow",
+        "cyan",
+        "magenta"
     };
 
     private GameColor(string name, ConsoleColor consoleColor)
@@ -30,42 +30,27 @@ public class GameColor
         {
             return null;
         }
-
-        foreach (var color in Colors)
+        var name = colorName.Trim().ToLower();
+        if (!IsValidColorName(name))
         {
-            if (color.Name == colorName.Trim().ToLower())
-            {
-                return color;
-            }
+            return null;
         }
 
-        return null;
-    }
-
-    public static GameColor[] GetAll()
-    {
-        var copy = new GameColor[Colors.Length];
-        Array.Copy(Colors, copy, Colors.Length);
-        return copy;
-    }
-
-    public override bool Equals(object? obj)
-    {
-        if (obj is not GameColor other)
+        if (!Enum.TryParse(name, true, out ConsoleColor consoleColor))
         {
-            return false;
+            return null;
         }
 
-        return Name == other.Name;
+        return new GameColor(name, consoleColor);
     }
 
-    public override int GetHashCode()
+    public static List<string> GetValidColorNames()
     {
-        return Name.GetHashCode();
+        return ValidColorNames;
     }
 
-    public override string ToString()
+    private static bool IsValidColorName(string colorName)
     {
-        return Name;
+        return ValidColorNames.Contains(colorName);
     }
 }

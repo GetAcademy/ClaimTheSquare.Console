@@ -22,8 +22,9 @@ public class ColorMenu
 
     private static void ShowColors()
     {
-        foreach (var color in GameColor.GetAll())
+        foreach (var colorName in GameColor.GetValidColorNames())
         {
+            var color = GameColor.Create(colorName)!;
             var oldForeColor = Console.ForegroundColor;
             Console.ForegroundColor = color.ConsoleColor;
             Console.Write(color.Name);
