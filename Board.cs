@@ -32,20 +32,18 @@ public class Board
         }
     }
 
-    public bool ClaimSquare(
+    public ClaimResult ClaimSquare(
         int index,
         string text,
         GameColor foreColor,
-        GameColor backColor,
-        out string message)
+        GameColor backColor)
     {
         if (index < 0 || index >= _squares.Length)
         {
-            message = "Ugyldig rute.";
-            return false;
+            return new ClaimResult(false, "Ugyldig rute.");
         }
 
-        return _squares[index].Claim(text, foreColor, backColor, out message);
+        return _squares[index].Claim(text, foreColor, backColor);
     }
 
     public List<TextObjectDto> ToDtos()
@@ -76,10 +74,10 @@ public class Board
                 continue;
             }
 
-            var wasLoaded = _squares[textObject.Index].LoadFromDto(textObject, out var message);
-            if (!wasLoaded)
+            var errorMessage = _squares[textObject.Index].LoadFromDto(textObject);
+            if (errorMessage != null)
             {
-                Console.WriteLine($"Hopper over rute {textObject.Index}: {message}");
+                Console.WriteLine($"Hopper over rute {textObject.Index}: {errorMessage}");
                 hasMessage = true;
             }
         }

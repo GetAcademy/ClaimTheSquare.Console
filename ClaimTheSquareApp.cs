@@ -56,14 +56,18 @@ public class ClaimTheSquareApp
         Console.WriteLine("Velg bakgrunnsfarge:");
         var backColor = ColorMenu.ReadColor();
 
-        var wasChanged = _board.ClaimSquare(index, text, foreColor, backColor, out var message);
+        var result = _board.ClaimSquare(index, text, foreColor, backColor);
         Console.WriteLine();
-        Console.WriteLine(message);
 
-        if (wasChanged)
+        if (result.IsSuccess)
         {
+            Console.WriteLine("Endringen ble gjennomført.");
             SaveToJson();
             Console.WriteLine("Endringen ble lagret til JSON.");
+        }
+        else
+        {
+            Console.WriteLine(result.ErrorMessage);
         }
 
         Console.WriteLine();

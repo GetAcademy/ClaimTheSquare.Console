@@ -17,16 +17,11 @@ public class Square
         return _text == null;
     }
 
-    public bool Claim(
-        string text,
-        GameColor foreColor,
-        GameColor backColor,
-        out string message)
+    public ClaimResult Claim(string text, GameColor foreColor, GameColor backColor)
     {
         if (string.IsNullOrWhiteSpace(text))
         {
-            message = "Teksten kan ikke være tom.";
-            return false;
+            return new ClaimResult(false, "Teksten kan ikke være tom.");
         }
 
         if (IsEmpty())
@@ -34,26 +29,22 @@ public class Square
             _text = text;
             _foreColor = foreColor;
             _backColor = backColor;
-            message = $"Rute {_index} ble tatt.";
-            return true;
+            return new ClaimResult(true, "");
         }
 
         if (text != _text)
         {
-            message = "Ruten er allerede tatt. Du må skrive nøyaktig samme tekst for å kunne bytte farger.";
-            return false;
+            return new ClaimResult(false, "Ruten er allerede tatt. Du må skrive nøyaktig samme tekst for å kunne bytte farger.");
         }
 
         if (foreColor.Name != _backColor!.Name || backColor.Name != _foreColor!.Name)
         {
-            message = "Fargene må være nøyaktig motsatt av før.";
-            return false;
+            return new ClaimResult(false, "Fargene må være nøyaktig motsatt av før.");
         }
 
         _foreColor = foreColor;
         _backColor = backColor;
-        message = $"Fargene på rute {_index} ble byttet.";
-        return true;
+        return new ClaimResult(true, "");
     }
 
     public TextObjectDto ToDto()
@@ -67,39 +58,34 @@ public class Square
         };
     }
 
-    public bool LoadFromDto(TextObjectDto textObject, out string message)
+    public string? LoadFromDto(TextObjectDto textObject)
     {
         if (textObject.Index != _index)
         {
-            message = "DTO-en hører til en annen rute.";
-            return false;
+            return "DTO-en hører til en annen rute.";
         }
 
         if (string.IsNullOrWhiteSpace(textObject.Text))
         {
-            message = "tekst mangler.";
-            return false;
+            return "tekst mangler.";
         }
 
         var foreColor = GameColor.Create(textObject.ForeColor);
         if (foreColor == null)
         {
-            message = "forgrunnsfargen er ugyldig.";
-            return false;
+            return "forgrunnsfargen er ugyldig.";
         }
 
         var backColor = GameColor.Create(textObject.BackColor);
         if (backColor == null)
         {
-            message = "bakgrunnsfargen er ugyldig.";
-            return false;
+            return "bakgrunnsfargen er ugyldig.";
         }
 
         _text = textObject.Text;
         _foreColor = foreColor;
         _backColor = backColor;
-        message = "OK";
-        return true;
+        return null;
     }
 
     public void Show()
@@ -132,5 +118,4 @@ public class Square
 
         return text.Substring(0, 5);
     }
-
 }
